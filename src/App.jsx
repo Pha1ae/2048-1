@@ -162,20 +162,30 @@ export default function App() {
                 <p className="game-intro">
                     Combine matching tiles and reach <strong>2048!</strong>
                 </p>
-                <a
-                    className="restart-button"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => setGame(createNewGame())}
-                    onKeyDown={(event) => {
-                        if (event.key === "Enter" || event.key === " ") {
-                            event.preventDefault();
-                            setGame(createNewGame());
-                        }
-                    }}
-                >
-                    New Game
-                </a>
+
+                <div className="game-actions">
+                    <a
+                        className="restart-button"
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setGame(createNewGame())}
+                        onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                                event.preventDefault();
+                                setGame(createNewGame());
+                            }
+                        }}
+                    >
+                        New Game
+                    </a>
+
+                    <button
+                        className="theme-toggle"
+                        onClick={() => setIsDark((prev) => !prev)}
+                    >
+                        {isDark ? "Light Mode" : "Dark Mode"}
+                    </button>
+                </div>
             </div>
 
             <div
@@ -255,13 +265,6 @@ export default function App() {
                 WASD to move tiles. Press R to restart the game.
                 On mobile, swipe to move.
             </p>
-
-            <button
-                className="theme-toggle"
-                onClick={() => setIsDark((prev) => !prev)}
-            >
-                {isDark ? "Light Mode" : "Dark Mode"}
-            </button>
         </div>
     );
 }

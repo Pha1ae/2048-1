@@ -1127,3 +1127,60 @@ html.dark-theme body {
 .dark-theme .tile.tile-super .tile-inner {
     background: #d27696;
 }
+
+/* Game action buttons */
+.above-game {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.above-game .game-intro {
+    flex: 1 1 180px;
+    width: auto;
+    float: none;
+    line-height: 1.65;
+}
+
+.game-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.game-actions .restart-button,
+.game-actions .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 112px;
+    height: 40px;
+    margin: 0;
+    padding: 0 10px;
+    float: none;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Mobile layout */
+@media (max-width: 520px) {
+    .above-game .game-intro {
+        flex: 1 0 100%;
+    }
+
+    .game-actions {
+        width: 100%;
+    }
+
+    .game-actions .restart-button,
+    .game-actions .theme-toggle {
+        flex: 1;
+        width: auto;
+    }
+}
