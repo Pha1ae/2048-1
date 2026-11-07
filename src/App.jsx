@@ -135,7 +135,7 @@ export default function App() {
     return (
         <div className="container">
             <div className="heading">
-                <h1 className="title">2048</h1>
+                <h1 className="title">2048+</h1>
                 <div className="scores-container">
                     <div className="score-container">
                         {game.score}
@@ -149,7 +149,7 @@ export default function App() {
 
             <div className="above-game">
                 <p className="game-intro">
-                    Join the numbers and get to the <strong>2048 tile!</strong>
+                    Combine matching tiles and reach <strong>2048!</strong>
                 </p>
                 <a
                     className="restart-button"
@@ -240,9 +240,9 @@ export default function App() {
             </div>
 
             <p className="game-explanation">
-                <strong className="important">How to play:</strong> Use your{" "}
-                <strong>arrow keys</strong> (or swipe). When two tiles with the same
-                number touch, they <strong>merge into one!</strong>
+                <strong className="important">Controls:</strong> Use arrow keys or
+                WASD to move tiles. Press R to restart the game.
+                On mobile, swipe to move.
             </p>
         </div>
     );
