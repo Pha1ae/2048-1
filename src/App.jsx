@@ -58,6 +58,7 @@ export default function App() {
     // Game state contains tiles, score, and win/lose flags.
     const [game, setGame] = useState(() => loadFromStorage());
     const [bestScore, setBestScore] = useState(() => readBestScore());
+    const [isDark, setIsDark] = useState(false);
     const touchStartRef = useRef(null);
 
     const message = useMemo(() => getMessage(game), [game]);
@@ -109,6 +110,14 @@ export default function App() {
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark-theme", isDark);
+
+        return () => {
+            document.documentElement.classList.remove("dark-theme");
+        };
+    }, [isDark]);
 
     // Basic swipe handling to keep mobile controls equivalent to the old project.
     function onTouchStart(event) {
@@ -244,6 +253,13 @@ export default function App() {
                 WASD to move tiles. Press R to restart the game.
                 On mobile, swipe to move.
             </p>
+
+            <button
+                className="theme-toggle"
+                onClick={() => setIsDark((prev) => !prev)}
+            >
+                {isDark ? "Light Mode" : "Dark Mode"}
+            </button>
         </div>
     );
 }
