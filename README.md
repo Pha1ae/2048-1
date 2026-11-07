@@ -1,144 +1,128 @@
 # 2048 (React + Vite)
 
-Modern React + Vite implementation of the classic **2048** game, migrated from the original vanilla JavaScript structure while preserving the familiar gameplay and visual style.
+## 1. Project Overview
 
-## Overview
+A modern React + Vite implementation of the classic **2048** game, migrated from the original vanilla JavaScript structure while preserving its familiar gameplay and visual style.
 
-This version includes:
+## 2. Reason for Selection
 
-- React-based UI rendering
-- Vite-based development and production build pipeline
-- Keyboard + mobile swipe controls
-- Persistent best score and in-progress game state via `localStorage`
-- Modular game engine (`src/game.js`) with readable comments
+I selected this project because it is a React version of a classic game. The original project also supports customization, and its README provides tips for modifying the game.
 
-## Why React For This Project?
+## 3. Original Repository
 
-Using plain HTML/CSS/JS works for small prototypes, but this game benefits from React as it grows:
+https://github.com/radhey004/2048-1.git
 
-- **State-driven UI is cleaner**  
-  Game state (tiles, score, win/lose) lives in one predictable flow, and UI updates automatically from that state.
-
-- **Less manual DOM manipulation**  
-  Original-style imperative DOM updates are harder to reason about and easier to break. React removes most direct DOM bookkeeping.
-
-- **Better maintainability**  
-  UI (`App.jsx`) and game logic (`game.js`) are clearly separated, which makes changes safer and faster.
-
-- **Easier feature expansion**  
-  Adding things like animations, undo, board-size options, themes, or settings is more scalable with component-based structure.
-
-- **Improved developer experience**  
-  Vite + React gives fast refresh, modern module tooling, and easier long-term refactoring.
-
-## Tech Stack
-
-- **React 18**
-- **Vite 5**
-- Plain CSS (reusing original styles and fonts)
-
-## Requirements
-
-- Node.js 18+ recommended
-- npm (comes with Node.js)
-
-## Getting Started
-
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start local dev server:
-   ```bash
-   npm run dev
-   ```
-3. Open the URL shown in terminal (typically `http://localhost:5173`)
-
-## Available Scripts
-
-- `npm run dev`  
-  Starts Vite in development mode with fast refresh.
-
-- `npm run build`  
-  Builds production-ready files into `dist/`.
-
-- `npm run preview`  
-  Serves the production build locally for validation.
-
-## Project Structure
-
-```txt
-2048/
-├─ src/
-│  ├─ App.jsx        # React UI, controls wiring, persistence hooks
-│  ├─ game.js        # Core 2048 engine (grid + movement + merge rules)
-│  └─ main.jsx       # React entry point
-├─ style/
-│  ├─ main.css       # Original 2048 styling (reused)
-│  └─ fonts/         # Clear Sans font assets
-├─ meta/             # Apple touch icons/startup assets
-├─ index.html        # Vite HTML entry
-├─ vite.config.js    # Vite config
-└─ package.json      # Scripts + dependencies
-```
-
-## Controls
-
-- Arrow keys: move tiles
-- `W`, `A`, `S`, `D`: move tiles
-- `H`, `J`, `K`, `L`: Vim-style movement
-- `R`: restart game
-- Swipe (mobile/touch): move tiles
-
-## Gameplay Rules (Implementation Notes)
-
-- Grid size is fixed at `4 x 4`.
-- New game starts with **two random tiles** (`2` most of the time, occasionally `4`).
-- On each valid move:
-  - Tiles slide in the chosen direction.
-  - Equal adjacent tiles merge once per move.
-  - Score increases by merged tile values.
-  - One new random tile is spawned.
-- Win condition is reaching tile `2048`.
-- After winning, user may continue (`Keep going`) beyond 2048.
-- Game over occurs when no empty cells and no merges are possible.
-
-## Persistence
-
-The app uses browser `localStorage`:
-
-- `bestScore`: highest score achieved on this browser
-- `gameState`: active game snapshot (cleared on game over)
-
-If storage is unavailable/restricted, the game still runs without persistence.
-
-## Build Output
-
-Production output is generated in:
-
-- `dist/`
-
-You can deploy the `dist/` folder to any static host (Netlify, Vercel, GitHub Pages, etc.).
-
-## Customization Tips
-
-- Change gameplay internals in `src/game.js`:
-  - board size constants
-  - random tile spawn behavior
-  - movement/merge logic
-- Change UI/layout in `src/App.jsx`
-- Change styling/theme in `style/main.css`
-
-## Troubleshooting
-
-- If dependencies fail:
-  - delete `node_modules`
-  - run `npm install` again
-- If local state looks stuck:
-  - clear browser local storage for this app origin
-- If build fails unexpectedly:
-  - run `npm run build` and inspect exact error line
-
-## License
+### License
 
 This project includes the original 2048 MIT license text in `LICENSE.txt`.
+
+## 4. Installation and Execution
+
+1. Install dependencies:
+
+   `npm install`
+
+2. Start the local development server:
+
+   `npm run dev`
+
+3. Open the URL displayed in the terminal (usually `http://localhost:5173`).
+
+### Available Scripts
+
+- `npm run dev` — Starts the Vite development server with fast refresh.
+- `npm run build` — Builds the application for production in the `dist/` directory.
+- `npm run preview` — Runs a local server to preview the production build.
+
+## 5. Core Files
+
+- **`main.jsx`** — Initializes and starts the React application.
+- **`App.jsx`** — Manages game state, handles user input, and renders the UI.
+- **`game.js`** — Implements the core game logic, including tile movement, merging, and win/loss detection.
+
+## 6. React Component and State Management
+
+The game follows this process when the player presses a movement key:
+
+`App.jsx` detects keyboard input → `game.js` calculates the updated board → `setGame()` updates the React state → React re-renders the game interface.
+
+This allows the game interface to update automatically whenever the game state changes.
+
+## 7. Code Analysis
+
+The `useEffect()` hook in lines 88–111 of `App.jsx` handles keyboard controls.
+
+The following object maps keyboard inputs to numeric directions:
+
+```javascript
+const KEY_TO_DIRECTION = {
+  ArrowUp: 0,
+  ArrowRight: 1,
+  ArrowDown: 2,
+  ArrowLeft: 3,
+  w: 0,
+  d: 1,
+  s: 2,
+  a: 3,
+};
+```
+
+When the user presses a key, the following code converts the input into a numeric direction:
+
+```javascript
+const direction = KEY_TO_DIRECTION[key];
+```
+
+The game state is then updated using:
+
+```javascript
+setGame((current) => moveGame(current, direction));
+```
+
+- `current` represents the current game state passed by React to the state updater function.
+- `moveGame(current, direction)` calculates the new game state based on the current board and movement direction.
+- `setGame()` updates the React state with the calculated result.
+
+After the state is updated, React automatically re-renders the game interface.
+
+## 8. Customizations
+
+I made the following modifications to the original project:
+
+1. Changed the page title, game description, and gameplay instructions.
+2. Added a dark mode toggle.
+3. Slightly adjusted the page layout to accommodate the new dark mode button.
+
+### Light Mode vs. Dark Mode
+
+| Light Mode | Dark Mode |
+|---|---|
+| ![Light Mode](screenshot/LightMode.png) | ![Dark Mode](screenshot/DarkMode.png) |
+
+## 9. Vercel Deployment
+
+The customized game is deployed on Vercel.
+
+https://2048-1-dun.vercel.app/
+
+## 10. Weekly Review
+
+### Three Things I Learned
+
+1. The basics of Node.js and its role in web development.
+2. How React components and state management work.
+3. How to run a local development server using npm and deploy a web application.
+
+### Challenges and Solutions
+
+Understanding the structure and functionality of an existing project took some time. I also needed time to get used to JSX, which combines JavaScript logic with HTML-like syntax.
+
+Using AI tools to break down the project into smaller sections helped me understand each part more easily.
+
+### AI Usage and Reflection
+
+I used AI tools to analyze the project structure and suggest three customization options with increasing levels of difficulty.
+
+Through this project, I found that modifying an existing project can be more challenging than expected because I first need to understand its structure and how different parts of the code work together.
+
+I realized that I need more practice reading, understanding, and modifying existing code.
