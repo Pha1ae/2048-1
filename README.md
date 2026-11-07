@@ -50,7 +50,7 @@ This allows the game interface to update automatically whenever the game state c
 
 ## 7. Code Analysis
 
-The `useEffect()` hook in lines 88–111 of `App.jsx` handles keyboard controls.
+The `useEffect()` hook in lines 89–112 of `App.jsx` handles keyboard controls.
 
 The following object maps keyboard inputs to numeric directions:
 
@@ -90,8 +90,10 @@ After the state is updated, React automatically re-renders the game interface.
 I made the following modifications to the original project:
 
 1. Changed the page title, game description, and gameplay instructions.
-2. Added a dark mode toggle.
-3. Slightly adjusted the page layout to accommodate the new dark mode button.
+2. Added a dark mode toggle, and slightly adjusted the page layout to accommodate the new dark mode button.
+3. Implemented saving color theme preferences using `localStorage`.
+
+Mainly two files were modified: `src/App.jsx` and `style/main.css`.
 
 ### Light Mode vs. Dark Mode
 
