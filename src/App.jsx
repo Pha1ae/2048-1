@@ -58,7 +58,7 @@ export default function App() {
     // Game state contains tiles, score, and win/lose flags.
     const [game, setGame] = useState(() => loadFromStorage());
     const [bestScore, setBestScore] = useState(() => readBestScore());
-    const [isDark, setIsDark] = useState(false);
+    const [isDark, setIsDark] = useState(() => localStorage.getItem("theme") === "dark");
     const touchStartRef = useRef(null);
 
     const message = useMemo(() => getMessage(game), [game]);
@@ -113,6 +113,8 @@ export default function App() {
 
     useEffect(() => {
         document.documentElement.classList.toggle("dark-theme", isDark);
+
+        localStorage.setItem("theme", isDark ? "dark" : "light");
 
         return () => {
             document.documentElement.classList.remove("dark-theme");
